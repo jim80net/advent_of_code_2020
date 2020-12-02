@@ -11,7 +11,7 @@ defmodule D1 do
   defp parse_args(args) do
     {opts, arguments, _} =
       args
-      |> OptionParser.parse(switches: [])
+      |> OptionParser.parse(switches: [three: :boolean])
 
     {opts, arguments}
   end
@@ -46,9 +46,31 @@ defmodule D1 do
     end
   end
 
-  defp response({_opts, []}) do
+  defp read_three(ledger) do
+    case IO.read(:stdio, :line) do
+      :eof ->
+        :ok
+
+      {:error, reason} ->
+        error("Error: #{reason}")
+
+      data ->
+        value = data |> String.trim() |> String.to_integer()
+        D1.Ledger.add(ledger, value)
+        read_three(ledger)
+    end
+  end
+
+  defp response({opts, []}) do
     {:ok, ledger} = D1.Ledger.start_link(nil)
-    read(ledger)
+
+    if opts[:three] do
+      read_three(ledger)
+      {:ok, result} = D1.Ledger.result_three(ledger)
+      result
+    else
+      read(ledger)
+    end
   end
 
   def main(args \\ []) do

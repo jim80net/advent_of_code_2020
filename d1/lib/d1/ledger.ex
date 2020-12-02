@@ -22,6 +22,11 @@ defmodule D1.Ledger do
     GenServer.call(pid, {:result, test_original})
   end
 
+  def result_three(pid) do
+    # 600 second timeout
+    GenServer.call(pid, {:result_three})
+  end
+
   # Server
 
   @impl true
@@ -60,5 +65,37 @@ defmodule D1.Ledger do
     else
       {:reply, {:none, nil}, state}
     end
+  end
+
+  @impl true
+  def handle_call({:result_three}, _from, [originals, _complements] = state) do
+    result = three_elements_add_to_2020(originals)
+
+    case result do
+      [x, y, z] -> {:reply, {:ok, x * y * z}, state}
+      nil -> {:reply, {:none, nil}, state}
+    end
+  end
+
+  @doc false
+  def three_elements_add_to_2020(originals) do
+    originals
+    |> Enum.sort(:asc)
+    |> permutations()
+    |> Enum.find(fn [x, y, z] -> x + y + z == 2020 end)
+  end
+
+  @doc false
+  def permutations(list, num \\ 3)
+
+  @doc false
+  def permutations(_list, 0), do: [[]]
+
+  @doc false
+  def permutations([], _num), do: []
+
+  @doc false
+  def permutations([head | tail], num) do
+    Enum.map(permutations(tail, num - 1), &[head | &1]) ++ permutations(tail, num)
   end
 end

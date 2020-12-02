@@ -30,5 +30,7 @@ Of course, your expense report is much larger. Find the two entries that sum to 
 
 ```
 mix escript.build
-echo $LINE_SEPARATED_VALUES | ./d1
+echo $LINE_SEPARATED_VALUES | ./d1 
+echo $LINE_SEPARATED_VALUES | ./d1 --three
+
 ```

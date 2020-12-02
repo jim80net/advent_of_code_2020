@@ -25,3 +25,5 @@ d1-*.tar
 
 # Temporary files for e.g. tests
 /tmp
+
+d1
