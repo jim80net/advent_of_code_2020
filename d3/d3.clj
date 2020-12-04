@@ -30,12 +30,12 @@
     (get (get vecvec h_index) w_index)))
 
 (defn elements
-  [vecvec]
+  [vecvec w_slope h_slope]
   (loop [vecvec vecvec
          w_start_pos 0
          h_start_pos 0
-         w_slope 3
-         h_slope 1
+         w_slope w_slope
+         h_slope h_slope
          acc [(element_at vecvec 0 0)]]
     (let [width (count (first vecvec))
           height (count vecvec)
@@ -57,6 +57,15 @@
   [path]
   (get (frequencies path) "#"))
 
-(def main
-  (let [outcome (trees (elements (parse_input (input :stdin))))]
+(def main_p1
+  (let [outcome (trees (elements (parse_input (input :stdin)) 3 1))]
     (println (str outcome))))
+
+(def main
+  (let [vecvec (parse_input (input :stdin))
+        o1 (trees (elements vecvec 1 1))
+        o2 (trees (elements vecvec 3 1))
+        o3 (trees (elements vecvec 5 1))
+        o4 (trees (elements vecvec 7 1))
+        o5 (trees (elements vecvec 1 2))]
+    (println (str (reduce * [o1 o2 o3 o4 o5])))))
