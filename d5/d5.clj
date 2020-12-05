@@ -25,7 +25,17 @@
   [string]
     (read-string (str "2r" string)))
 
+#_
+(def main_p1
+  (let [outcome (map string_to_binary (parse_input (input :stdin)))]
+    (println (str (apply max outcome)))))
+
 
 (def main
   (let [outcome (map string_to_binary (parse_input (input :stdin)))]
-    (println (str (apply max outcome)))))
+    (println (loop [acc (sort (vec outcome))]
+               (let [left (first acc)
+                     right (first (rest acc))]
+                 (if (= 2 (- right left))
+                   (inc left)
+                   (recur (rest acc))))))))
