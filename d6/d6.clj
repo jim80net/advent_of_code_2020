@@ -1,6 +1,7 @@
 (ns d6
   (:require [clojure.core]
-            [clojure.string]))
+            [clojure.string]
+            [clojure.set]))
 
 (defn input
   ([]
@@ -27,9 +28,24 @@
   (->> input
        (partition-by #(= "" %))
        (filter (fn [x] (not (= '("") x))))
-       (map (fn [x] (->> x (mapcat (comp seq char-array)) set count)))))    
+       ))
 
+(defn part_1
+  [sequence]
+  (map (fn [x] (->> x
+                    (mapcat (comp seq char-array))
+                    set
+                    count))
+       sequence))
+
+(defn part_2
+  [sequence]
+  (map (fn [x] (->> x
+                    (map (comp set seq char-array))
+                    (reduce clojure.set/intersection)
+                    count))
+       sequence))
 
 (def main
-  (let [outcome  (apply + (parse_input (input :stdin)))]
+  (let [outcome   (reduce + (part_2 (parse_input (input :stdin))))]
     (println (str outcome))))
