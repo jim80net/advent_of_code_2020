@@ -53,8 +53,8 @@
                                (recur (rest count_map_seq) new_relationships2))))
         adjacency_map {}]
     (if (empty? relationship_set)
-      (do (comment (.println *err* (str "Adjacency map: " adjacency_map)))
-          adjacency_map)
+      (do   (.println *err* (str "Adjacency map: " adjacency_map))
+           adjacency_map)
       (recur (rest relationship_set) (let [entry (first relationship_set)
                                            parent (first entry)
                                            child (last entry)]
@@ -62,9 +62,30 @@
                                                                      (conj (get adjacency_map parent) child)
                                                                      [child])))))))
 
+(defn visited?
+  "Predicate which returns true if the node v has been visited already, false otherwise."
+  [v coll]
+  (some #(= % v) coll))
+
+(defn graph-dfs
+  "Traverses a graph in Depth First Search (DFS)"
+  [graph v]
+  (loop [stack   (vector v) ;; Use a stack to store nodes we need to explore
+         visited []]        ;; A vector to store the sequence of visited nodes
+    (if (empty? stack)      ;; Base case - return visited nodes if the stack is empty
+      visited
+      (let [v           (peek stack)
+            neighbors   (get graph v)
+            not-visited (filter (complement #(visited? % visited)) neighbors)
+            new-stack   (into (pop stack) not-visited)]
+        (if (visited? v visited)
+          (recur new-stack visited)
+          (recur new-stack (conj visited v)))))))
+
 (defn part_1
   [count_map]
-   (count (get (adjacency_map count_map) "shiny gold")))
+  (let [a_map (adjacency_map count_map)]
+     (graph-dfs a_map "shiny gold")))
 
 
 (def main
