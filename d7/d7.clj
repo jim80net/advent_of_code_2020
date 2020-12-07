@@ -48,9 +48,8 @@
                              (let [parent_and_children (first count_map_seq)
                                    parent (first parent_and_children)
                                    children (map (comp first first) (first (rest parent_and_children)))
-                                   new_relationships (clojure.set/union relationships (map (fn [child] [parent child]) children))
-                                   new_relationships2 (clojure.set/union new_relationships (map (fn [child] [child parent]) children))]
-                               (recur (rest count_map_seq) new_relationships2))))
+                                   new_relationships (clojure.set/union relationships (set (map (fn [child] [parent child]) children)))]
+                               (recur (rest count_map_seq) new_relationships))))
         adjacency_map {}]
     (if (empty? relationship_set)
       (do   (.println *err* (str "Adjacency map: " adjacency_map))
@@ -78,14 +77,14 @@
             neighbors   (get graph v)
             not-visited (filter (complement #(visited? % visited)) neighbors)
             new-stack   (into (pop stack) not-visited)]
-        (if (visited? v visited)
+        (if (or (visited? v visited) (nil? v))
           (recur new-stack visited)
           (recur new-stack (conj visited v)))))))
 
 (defn part_1
   [count_map]
   (let [a_map (adjacency_map count_map)]
-     (graph-dfs a_map "shiny gold")))
+     (dec (count (graph-dfs a_map "shiny gold")))))
 
 
 (def main
