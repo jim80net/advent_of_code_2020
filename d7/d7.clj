@@ -48,7 +48,7 @@
                              (let [parent_and_children (first count_map_seq)
                                    parent (first parent_and_children)
                                    children (map (comp first first) (first (rest parent_and_children)))
-                                   new_relationships (clojure.set/union relationships (set (map (fn [child] [parent child]) children)))]
+                                   new_relationships (clojure.set/union relationships (set (map (fn [child] [child parent]) children)))]
                                (recur (rest count_map_seq) new_relationships))))
         adjacency_map {}]
     (if (empty? relationship_set)
@@ -83,8 +83,10 @@
 
 (defn part_1
   [count_map]
-  (let [a_map (adjacency_map count_map)]
-     (dec (count (graph-dfs a_map "shiny gold")))))
+  (let [a_map (adjacency_map count_map)
+        shiny (graph-dfs a_map "shiny gold")]
+    (.println *err* (str "Shiny gold: " shiny)) 
+    (dec (count shiny))))
 
 
 (def main
