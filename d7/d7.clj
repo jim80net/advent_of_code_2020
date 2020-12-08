@@ -103,21 +103,24 @@
 
 (defn part_2
   [count_map]
-  (loop [stack [{"shiny gold" 1}]
-         running_bag_count 0]
-    (.println *err* (str "looking at " stack))
-    (if (empty? stack)
-      (inc running_bag_count)
-      (let [my_bag (first (first (peek stack)))
-            my_bag_count (last (first (peek stack)))
-            my_new_bag_count (dec my_bag_count)
-            inside_bags (vec (get count_map my_bag))
-            new_stack (into (pop stack) inside_bags)]
+  (dec (loop [stack [{"shiny gold" 1}]
+              running_bag_count 0]
+         (comment (.println *err* (str "looking at " stack ". Running total: " running_bag_count)))
+         (if (empty? stack)
+           running_bag_count
+           (let [my_bag (first (first (peek stack)))
+                 my_bag_count (last (first (peek stack)))
+                 inside_bags (vec (get count_map my_bag))
+                 new_stack (conj (into (pop stack) inside_bags) {my_bag (dec my_bag_count)})]
 
-        (.println *err* (str "i have " my_bag_count " " my_bag " bag(s). They hold " inside_bags ". Running total: " running_bag_count ))
-        (if (> my_new_bag_count 1)
-            (recur (conj new_stack {my_bag my_new_bag_count}) (inc running_bag_count))
-            (recur new_stack (inc running_bag_count)))))))
+             (comment (.print *err* (str "i am looking at " my_bag_count " " my_bag " bag(s).")))
+             (if (> my_bag_count 0)
+               (do
+                 (comment (.print *err* (str " I am adding its contents, " inside_bags ", to my stack: " stack " Running total: " running_bag_count "\n")))
+                 (recur new_stack (inc running_bag_count)))
+               (do
+                 (comment (.print *err* (str " My Stack: " stack " Running total: " running_bag_count "\n")))
+                 (recur (pop stack) running_bag_count))))))))
 
 (def main
   (let [outcome   (part_2 (parse_input input))]
