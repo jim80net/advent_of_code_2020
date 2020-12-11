@@ -6,14 +6,75 @@
 (def input
   (line-seq (java.io.BufferedReader. *in*)))
 
+(defn parse-char [char] (case char "L" -1 "#" 1 "." 0))
+
 (defn parse-input
   "Return a hash-map of bag to constiuent bags as a sequence of hash-maps or sequence of nil."
   [input]
-  (map #(Integer/parseInt %) input))
+  (mapv (fn [x] (mapv parse-char (str/split x #""))) input))
+
+(defn neighbors
+  "Evaluates a coordinate and returns a list of neighbors"
+  [neighbors-vecvec coord]
+   (let [[r c] coord]
+     (remove nil? (map #(get-in neighbors-vecvec %) [[(dec r) (dec c)]
+                                                     [(dec r) c]
+                                                     [(dec r) (inc c)]
+                                                     [r (dec c)]
+                                                     [r (inc c)]
+                                                     [(inc r) (dec c)]
+                                                     [(inc r) c]
+                                                     [(inc r) (inc c)]]))))
+
+(defn neighbors->count
+  "Takes a list of neighbors and returns a count of occupied seats"
+  [neighbors]
+  (reduce + (filter (partial = 1) neighbors)))
+
+
+(defn chair-swap!
+  "Takes a value and returns its inverse (occupied->unoccupied, floor->floor, occupied->unoccupied)"
+  [x]
+  (case x
+    -1 1
+    0 0
+    1 -1))
+
+(defn swap?
+  "Evaluates a coordinate and returns a boolean"
+  [neighbors-vecvec coord]
+  (let [current (get-in neighbors-vecvec coord)
+        neighbors-count (neighbors->count (neighbors neighbors-vecvec coord))]
+    (or
+     (and
+      (= current -1)
+      (= 0 neighbors-count))
+     (and
+      (= current 1)
+      (<= 4 neighbors-count)))))
+  
+(defn swap-if-necessary-chair
+  "Evaluates a coordinate and returns the correct chair"
+  [neighbors-vecvec coord]
+  (let [current (get-in neighbors-vecvec coord)
+        should-i? (swap? neighbors-vecvec coord)]
+    (if should-i? (chair-swap! current) current)))
+
+(defn step
+  [neighbors-vecvec]
+  (vec (map-indexed (fn [row-idx row]
+                         (vec (map-indexed (fn [chair-idx _chair]
+                                                (swap-if-necessary-chair neighbors-vecvec [row-idx chair-idx]))
+                                              row)))
+                       neighbors-vecvec)))
 
 (defn part-1
   [data]
-  data)
+  (loop [neighbors-vecvec data]
+    (let [next-vecvec (step neighbors-vecvec)]
+      (if (= neighbors-vecvec next-vecvec)
+        [(count (filter (partial = 1) (flatten neighbors-vecvec))) neighbors-vecvec]
+        (recur next-vecvec)))))
 
 (defn part-2
   "Given a sorted list of values, return the number of permutations of increments no greater than 3, leading to the (+ maximum-value 3)"
@@ -26,6 +87,6 @@
     (let [data (parse-input input)
           p1-outcome (part-1 data)
           p2-outcome (part-2 data)]
-      (println (str "part 1: " (first p1-outcome) " from: " (last p1-outcome)))
-      (println (str "part 2: " p2-outcome)))
+      (println (str "part 1: " (first p1-outcome) (comment " from: " (last p1-outcome))))
+      (println (str "part 2: " (comment p2-outcome))))
     nil))
