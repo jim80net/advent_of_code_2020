@@ -1,5 +1,6 @@
 # D12
 
+```
 --- Day 12: Rain Risk ---
 
 Your ferry made decent progress toward the island, but the storm came in faster than anyone expected. The ferry needs to take evasive actions!
@@ -34,10 +35,11 @@ F11 would move the ship 11 units south to east 17, south 8.
 At the end of these instructions, the ship's Manhattan distance (sum of the absolute values of its east/west position and its north/south position) from its starting position is 17 + 8 = 25.
 
 Figure out where the navigation instructions lead. What is the Manhattan distance between that location and the ship's starting position?
-
+```
 
 # Part 2
 
+```
 --- Part Two ---
 
 Before you can give the destination to the captain, you realize that the actual action meanings were printed on the back of the instructions the whole time.
@@ -63,13 +65,11 @@ F11 moves the ship to the waypoint 11 times (a total of 44 units east and 110 un
 After these operations, the ship's Manhattan distance from its starting position is 214 + 72 = 286.
 
 Figure out where the navigation instructions actually lead. What is the Manhattan distance between that location and the ship's starting position?
-
+```
 
 
 ## Usage
 
 ```
 mix escript.build && cat input | ./d12
-
-
 ```
