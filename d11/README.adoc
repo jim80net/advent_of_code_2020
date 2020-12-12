@@ -64,6 +64,7 @@ L.#.#..#..
 #L######L#
 #.LL###L.L
 #.#L###.##
+
 #.#L.L#.##
 #LLL#LL.L#
 L.L.L..#..
@@ -75,6 +76,7 @@ L.L.L..#..
 #.LLLLLL.L
 #.#L#L#.##
 #.#L.L#.##
+
 #LLL#LL.L#
 L.#.L..#..
 #L##.##.L#
@@ -84,6 +86,7 @@ L.#.L..#..
 #L#L##L#L#
 #.LLLLLL.L
 #.#L#L#.##
+
 At this point, something interesting happens: the chaos stabilizes and further applications of these rules cause no seats to change state! Once people stop moving around, you count 37 occupied seats.
 
 Simulate your seating area by applying the seating rules repeatedly until no seats change state. How many seats end up occupied?
@@ -136,6 +139,7 @@ L.LLLLL.LL
 LLLLLLLLLL
 L.LLLLLL.L
 L.LLLLL.LL
+
 #.##.##.##
 #######.##
 #.#.#..#..
@@ -146,6 +150,7 @@ L.LLLLL.LL
 ##########
 #.######.#
 #.#####.##
+
 #.LL.LL.L#
 #LLLLLL.LL
 L.L.L..L..
@@ -156,6 +161,7 @@ L.LLLLL.LL
 LLLLLLLLL#
 #.LLLLLL.L
 #.LLLLL.L#
+
 #.L#.##.L#
 #L#####.LL
 L.#.#..#..
@@ -166,6 +172,7 @@ L.#.#..#..
 LLL####LL#
 #.L#####.L
 #.L####.L#
+
 #.L#.L#.L#
 #LLLLLL.LL
 L.L.L..#..
@@ -176,6 +183,7 @@ L.LL.LL.L#
 LLLLLLLLL#
 #.LLLLL#.L
 #.L#LL#.L#
+
 #.L#.L#.L#
 #LLLLLL.LL
 L.L.L..#..
@@ -186,6 +194,7 @@ L.L#.#L.L#
 LLL###LLL#
 #.LLLLL#.L
 #.L#LL#.L#
+
 #.L#.L#.L#
 #LLLLLL.LL
 L.L.L..#..
