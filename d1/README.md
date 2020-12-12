@@ -30,7 +30,7 @@ Of course, your expense report is much larger. Find the two entries that sum to 
 
 ```
 mix escript.build
-echo $LINE_SEPARATED_VALUES | ./d1 
+cat input | ./d1 
 ```
 # Part 2
 
@@ -46,5 +46,5 @@ In your expense report, what is the product of the three entries that sum to 202
 
 ```
 mix escript.build
-echo $LINE_SEPARATED_VALUES | ./d1 --three
+cat input | ./d1 --three
 ```
