@@ -2,6 +2,7 @@
 
 https://adventofcode.com/2020/day/8
 
+```
 --- Day 8: Handheld Halting ---
 
 Your flight to the major airline hub reaches cruising altitude without incident. While you consider checking the in-flight menu for one of those drinks that come with a little umbrella, you are interrupted by the kid sitting next to you.
@@ -44,17 +45,11 @@ This is an infinite loop: with this sequence of jumps, the program will run fore
 Immediately before the program would run an instruction a second time, the value in the accumulator is 5.
 
 Run your copy of the boot code. Immediately before any instruction is executed a second time, what value is in the accumulator?
-
-
-
-
-## Usage
-```
-cat input | clj -M d8.clj
 ```
 
-# Day 8 Part 2
+# Part 2
 
+```
 --- Part Two ---
 
 After some careful analysis, you believe that exactly one instruction is corrupted.
@@ -90,6 +85,7 @@ acc +6  | 6
 After the last instruction (acc +6), the program terminates by attempting to run the instruction below the last instruction in the file. With this change, after the program terminates, the accumulator contains the value 8 (acc +1, acc +1, acc +6).
 
 Fix the program so that it terminates normally by changing exactly one jmp (to nop) or nop (to jmp). What is the value of the accumulator after the program terminates?
+```
 
 ## Usage
 ```
