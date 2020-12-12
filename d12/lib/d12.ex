@@ -1,6 +1,7 @@
 defmodule D12 do
   use Application
   alias D12.Navi
+  alias D12.Navi2
 
   defmacro left ~> right do
     quote do
@@ -69,25 +70,27 @@ defmodule D12 do
 
       data ->
         [action, value] = data |> String.trim() |> parse_action_value()
-        info([action, value], "Read Action Value")      
+        info([action, value], "Read Action Value")
         Navi.action(Navi, action, value)
+        Navi2.action(Navi2, action, value)
         read()
     end
   end
 
   defp response({_opts, []}) do
-    
     read()
-    
-    Navi.position(Navi)
-    ~> info("Boat position:")
-    ~> manhattan()
+
+    [
+      Navi.position(Navi) ~> info("Part 1 Boat position:") ~> manhattan(),
+      Navi2.position(Navi2) ~> info("Part 2 Boat position:") ~> manhattan()
+    ]
   end
 
   def main(args \\ []) do
     args
     |> parse_args()
     |> response()
-    |> IO.puts()
+    |> info("[Part 1, Part 2]")
+    |> IO.inspect()
   end
 end

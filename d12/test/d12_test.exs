@@ -9,6 +9,5 @@ defmodule D1Test do
   test "manhattan" do
     assert D12.manhattan([1, 3]) == 4
     assert D12.manhattan([1, -3]) == 4
-
   end
 end

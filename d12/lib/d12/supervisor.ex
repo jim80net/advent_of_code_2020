@@ -8,7 +8,8 @@ defmodule D12.Supervisor do
   @impl true
   def init(:ok) do
     children = [
-      {D12.Navi, name: D12.Navi}
+      {D12.Navi, name: D12.Navi},
+      {D12.Navi2, name: D12.Navi2}
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
