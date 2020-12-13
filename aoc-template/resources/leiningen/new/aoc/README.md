@@ -11,6 +11,9 @@ PART_1
 PART_2
 ```
 ## Usage
+
+Not sure how to properly invoke the project such that it doe
 ```
+cat input | lein test
 cat input | lein run -
 ```
