@@ -13,7 +13,7 @@
     (main/info "Generating fresh 'lein new' aoc project.")
     (->files data
              ["project.clj" (render "project.clj" data)]
-             ["src/{{sanitized}}/foo.clj" (render "core.clj" data)]
+             ["src/{{sanitized}}/core.clj" (render "core.clj" data)]
              ["test/{{sanitized}}/core_test.clj" (render "core_test.clj" data)]
              ["README.md" (render "README.md" data)]
              ["input" ""]
