@@ -17,3 +17,9 @@
          (is (= parse-input-test-result (d13.core/parse-input (line-seq r)))))
        (catch java.io.IOException e
          (.println *err* (format "ERROR: Couldn't open '%s': %s%n" "input.test" (.getMessage e))))))
+
+(deftest next-time-test
+  (is (= 12 (d13.core/next-time 10 3))))
+
+(deftest part-1-test
+  (is (= 295  (d13.core/part-1 parse-input-test-result))))
