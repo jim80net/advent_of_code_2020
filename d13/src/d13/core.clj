@@ -14,9 +14,13 @@
     [earliest-time busses]))
 
 (defn next-time
+  "Or now, if the bus is departing on this tick."
   [minimum interval]
   (if (> interval 0) 
-    (first (drop-while #(> minimum %) (iterate (partial + interval) 0)))
+    (let [remainder (mod minimum interval)]
+      (if (= 0 remainder)
+        minimum
+        (+ minimum (- interval remainder))))
     ##Inf))
 
 (defn part-1
@@ -39,6 +43,19 @@
                                     (= template test-value))) 
                                   template test)))
 
+(defn gcd
+  [a b]
+  (if (zero? b)
+    a
+    (recur b, (mod a b))))
+
+(defn lcm
+  ([a] a)
+  ([a b]
+   (/ (* a b) (gcd a b)))
+  ([a b & v]  (lcm a (lcm b (reduce lcm v)))))
+
+
 (defn part-2
   "Given a sorted list of values, return the number of permutations of increments no greater than 3, leading to the (+ maximum-value 3)"
   [data]
@@ -49,7 +66,7 @@
       (let [next-busses (mapv (fn [[idx bus]] (next-time (+ time idx) bus)) (map-indexed vector busses))
             delta-between (mapv #(- % time) next-busses)
             offset-between (mapv - delta-between template)
-            offset (apply max (remove #(Double/isInfinite %) offset-between))]
+            offset (reduce lcm 1 (take (count (take-while #(= 0 %) offset-between) ) busses))]
         
         (if (or (busses-sequential? template delta-between) (< ceiling time))
           (do
