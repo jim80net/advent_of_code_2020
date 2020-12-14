@@ -16,6 +16,7 @@
              ["src/{{sanitized}}/core.clj" (render "core.clj" data)]
              ["test/{{sanitized}}/core_test.clj" (render "core_test.clj" data)]
              ["README.md" (render "README.md" data)]
+             [".gitignore" (render ".gitignore" data)]
              ["input" ""]
              ["input.test" ""]
              ["input.test.result.edn" "nil"])))
