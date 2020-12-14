@@ -10,12 +10,14 @@
   "Return a hash-map of bag to constiuent bags as a sequence of hash-maps or sequence of nil."
   [input]
   (let [earliest-time (Integer/parseInt (first input))
-        busses (mapv #(Integer/parseInt %) (remove (partial = "x") (str/split (second input) #",")))]
+        busses (mapv #(Integer/parseInt %) (str/split (str/replace (second input) #"x" "0") #","))]
     [earliest-time busses]))
 
 (defn next-time
   [minimum interval]
-  (first (drop-while #(> minimum %) (iterate (partial + interval) 0))))
+  (if (> interval 0) 
+    (first (drop-while #(> minimum %) (iterate (partial + interval) 0)))
+    ##Inf))
 
 (defn part-1
   [data]
