@@ -29,3 +29,4 @@
       (println (str "part 1: " (first p1-outcome) " from: " (last p1-outcome)))
       (println (str "part 2: " p2-outcome)))
     nil))
+cat
