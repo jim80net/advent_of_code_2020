@@ -18,4 +18,4 @@
              ["README.md" (render "README.md" data)]
              ["input" ""]
              ["input.test" ""]
-             ["input.test.result.edn" ""])))
+             ["input.test.result.edn" "nil"])))
