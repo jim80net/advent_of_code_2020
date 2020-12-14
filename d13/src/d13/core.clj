@@ -66,13 +66,16 @@
       (let [next-busses (mapv (fn [[idx bus]] (next-time (+ time idx) bus)) (map-indexed vector busses))
             delta-between (mapv #(- % time) next-busses)
             offset-between (mapv - delta-between template)
-            offset (reduce lcm 1 (take (count (take-while #(= 0 %) offset-between) ) busses))]
-        
+            number-of-valid-offsets (take-while #(= 0 %) (remove #(= ##Inf %) offset-between))
+            valid-busses (vec (take (count number-of-valid-offsets) (remove #(= 0 %) busses)))
+            offset (reduce lcm 1 valid-busses)]  
         (if (or (busses-sequential? template delta-between) (< ceiling time))
           (do
             (.println *err* (str "Time: " time "/" ceiling ". The distance between the next-busses: " next-busses " is: " delta-between ". The offset is: " offset-between))
             time)
-          (recur (+ time offset)))))))
+          (do
+            (comment (.println *err* (str "Time: " time "/" ceiling ". The distance between the next-busses: " next-busses " is: " delta-between ". The offset is: " offset-between ", " offset ". The valid busses are: " valid-busses)))
+            (recur (+ time offset))))))))
 
 (defn -main
   [& args]
