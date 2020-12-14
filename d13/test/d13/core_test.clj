@@ -23,3 +23,12 @@
 
 (deftest part-1-test
   (is (= 295  (d13.core/part-1 parse-input-test-result))))
+
+(deftest sequential? 
+  (is (true? (d13.core/busses-sequential? [0 1 2] [0 1 2])))
+  (is (true? (d13.core/busses-sequential? [0 1 2] [0 ##Inf 2]))))
+
+(deftest part-2-test
+  (is (= 1 (d13.core/part-2 [0 [1 2 3]])))
+  (is (= 3417 (d13.core/part-2 [0 [17 0 13 19]])))
+  (comment (is (= 754018 (d13.core/part-2 [0 [67 7 59 61]])))))
