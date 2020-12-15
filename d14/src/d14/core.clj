@@ -65,10 +65,43 @@
             new-memory (if (= action "mem") (assoc memory target (apply-mask bitmask-s value)) memory)]
         (recur new-program new-bitmask-s new-memory)))))
 
+(defn floating-mask
+  [mask n]
+  (let [n-b (Integer/toBinaryString n)
+        n-bs (reduce str (concat (repeat (- (count mask) (count n-b)) "0") n-b))]
+    (loop [idx 0
+           acc [""]]
+      (if (> idx (dec (count mask)))
+        (mapv #(read-string (str "2r" %)) acc)
+        (let [mask-char (get mask idx)
+              n-char (get n-bs idx)]
+          (if (= mask-char \X)
+            (recur (inc idx) (concat (map #(str % "0") acc) (map #(str % "1") acc)))
+            (recur (inc idx) (mapv #(str % n-char) acc))))))))
+
+(defn apply-mask-2
+  [mask n] 
+  (mapv #(bit-or (or-mask mask) %)
+        (floating-mask mask n)))
+
+(defn update-memory
+  [memory keys value]
+  (reduce #(assoc %1 %2 value) memory keys))
+
 (defn part-2
   "Given a sorted list of values, return the number of permutations of increments no greater than 3, leading to the (+ maximum-value 3)"
   [data]
-  data)
+  (loop [program data
+         bitmask-s nil
+         memory {}]
+    (if (empty? program)
+      (reduce + (vals memory))
+      (let [[action target value] (first program)
+            new-program (rest program)
+            new-bitmask-s (if (= action "mask") value bitmask-s)
+            new-memory (if (= action "mem") (update-memory memory (apply-mask-2 bitmask-s target) value) memory)]
+        (comment (.println *err* (str "recurring with " new-program new-bitmask-s new-memory) ))
+        (recur new-program new-bitmask-s new-memory)))))
 
 (defn -main
   [& args]

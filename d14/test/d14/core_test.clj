@@ -26,7 +26,8 @@
   (is (= 2r11111101 (core/and-mask "XXXXX10X"))))
 
 (deftest or-mask-test
-  (is (= 2r00000100 (core/or-mask "XXXXX10X"))))
+  (is (= 2r00000100 (core/or-mask "XXXXX10X")))
+  (is (= 2r010010 (core/or-mask "X1001X"))))
 
 (deftest apply-mask-test
   (map
@@ -36,3 +37,21 @@
 
 (deftest part-1-test
   (is (= 165 (core/part-1 parse-input-test-result))))
+
+(deftest floating-mask-test
+  (is (= [2r00 2r10 2r01  2r11] (core/floating-mask "XX" 0)))
+  (is (= [2r011010 2r111010 2r011011  2r111011] (core/floating-mask "X1001X" 2r111010)))
+  (is (= [16 24 18 26 17 25 19 27] (core/floating-mask "00000000000000000000000000000000X0XX" 26))))
+
+(deftest apply-mask2-test
+  (is (= [26 58 27 59] (core/apply-mask-2 "000000000000000000000000000000X1001X" 2r000000000000000000000000000000101010))))
+
+(deftest update-memory-test
+  (is (= {:a 1 :b 1 :c 1} (core/update-memory {} [:a :b :c] 1)))
+  (is (= {:a 1 :b 1 :c 1 :d 2} (core/update-memory {:d 2} [:a :b :c] 1))))
+
+(deftest part-2-test
+  (is (= 208 (core/part-2 [["mask" nil "000000000000000000000000000000X1001X"]
+                           ["mem" 42 100]
+                           ["mask" nil "00000000000000000000000000000000X0XX"]
+                           ["mem" 26 1]]))))
