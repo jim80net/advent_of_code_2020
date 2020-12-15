@@ -18,6 +18,21 @@
        (catch java.io.IOException e
          (.println *err* (format "ERROR: Couldn't open '%s': %s%n" "input.test" (.getMessage e))))))
 
-(deftest parse-line
+(deftest parse-line-test
   (is (= ["mask" nil "XXX10X"] (core/parse-line "mask = XXX10X")))
   (is (= ["mem" 3 4] (core/parse-line "mem[3] = 4"))))
+
+(deftest and-mask-test
+  (is (= 2r11111101 (core/and-mask "XXXXX10X"))))
+
+(deftest or-mask-test
+  (is (= 2r00000100 (core/or-mask "XXXXX10X"))))
+
+(deftest apply-mask-test
+  (map
+   (fn [x y] (is (= y (core/apply-mask "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X" x))))
+   [11 101 0] 
+   [73 101 64]))
+
+(deftest part-1-test
+  (is (= 165 (core/part-1 parse-input-test-result))))
