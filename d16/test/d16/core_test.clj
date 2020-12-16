@@ -19,7 +19,7 @@
          (.println *err* (format "ERROR: Couldn't open '%s': %s%n" "input.test" (.getMessage e))))))
 
 (def rules
-  (get parse-input-test-result "rules"))
+  (apply concat (vals (get parse-input-test-result "rules"))))
 
 (deftest valid-field?-test
   (is (true? (c/valid-field? rules 7)))
@@ -31,3 +31,28 @@
 
 (deftest part-1-test
   (is (= 11172 (c/part-1 parse-input-test-result))))
+
+(deftest remove-invalid-test
+  (is (= [[7 3 47]] (c/remove-invalid parse-input-test-result))))
+
+(deftest candidate-fields-test
+  (is (= [["class" "row"] ["class"] ["seat"]] (c/candidate-fields parse-input-test-result [7 3 47]))))
+
+(deftest reduce-to-single-test
+  (is (= ["row" "class" "seat"] (c/reduce-to-single '([["row" "seat"] ["seat" "class"] ["row" "seat"]]
+                                                      [["class" "row"] ["class"] ["seat"]])))))
+
+(deftest sudoku-rules-test
+  (is (= ["row" "class" "seat"] (c/sudoku-rules ['("row") '("class") '("seat")])))
+  (is (= ["row" "class" "seat"] (c/sudoku-rules ['("row" "class") '("class" "seat") '("seat")]))))
+
+(def p2data {"rules" {"departure class" [[0 1] [4 19]]
+                      "departure row" [[0 5] [8 19]]
+                      "seat" [[0 13] [16 19]]}
+             "your ticket" [11 12 13]
+             "nearby tickets" [[3 9 18]
+                               [15 1 5]
+                               [5 14 9]]})
+
+(deftest part-2-test
+  (is (= 132 (c/part-2 p2data))))
