@@ -33,12 +33,12 @@
 
 (defn part-1
   [data]
-  (second (nth (my-sequence data) 2019)))
+  (second (nth (my-sequence data) (dec 2020))))
 
 (defn part-2
   "Given a sorted list of values, return the number of permutations of increments no greater than 3, leading to the (+ maximum-value 3)"
   [data]
-  data)
+  (second (nth (my-sequence data) (dec 30000000))))
 
 (defn -main
   [& args]
