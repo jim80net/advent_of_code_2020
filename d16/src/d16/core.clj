@@ -8,7 +8,7 @@
   (line-seq (java.io.BufferedReader. *in*)))
 
 (defn parse-input
-  "Return a hash-map of bag to constiuent bags as a sequence of hash-maps or sequence of nil."
+  "Return a hash-map of rules, your ticket, and nearby tickets."
   [input]
   (let [raw-string (str/join " " input)
         rules (into {} (mapv 
